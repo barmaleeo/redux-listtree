@@ -1,7 +1,13 @@
 {
   "name": "redux-listtree",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
+  "main": "dist/ListTree.js",
+  "module": "dist/ListTree.js",
+  "files": [
+    "dist"
+  ],
+
   "dependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.4.0",
