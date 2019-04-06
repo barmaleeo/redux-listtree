@@ -21,6 +21,12 @@ export default class ListTree extends Component {
         this.props.editActions.edit(this.props.name, ids, id, name, value);
     };
 
+    onContextMenu = (ids, item, e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log(item)
+    };
+
     renderLevel(items, ids){
         return (
             <ul>
@@ -33,7 +39,8 @@ export default class ListTree extends Component {
         const newIds = ids.slice();
         newIds.push(l.id);
         return(
-            <li key={k} className={(l.active?'active':'')}>
+            <li key={k} className={(l.active?'active':'')}
+                onContextMenu={this.onContextMenu.bind(this,  newIds, l)}>
                 {l.items && l.items.length > 0 &&
                     <div className={'drop'+(l.open?' open':'')}
                          onClick={this.onClickOpen.bind(this, newIds, l.id)}>

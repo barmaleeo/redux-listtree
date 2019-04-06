@@ -1,0 +1,32 @@
+div.name-outher{
+  >span{
+    margin: 1px;
+    display: inline-block;
+    line-height: 19px;
+    border: 1px solid transparent;
+    cursor:pointer;
+
+  }
+  >input{
+    outline: none;
+    min-width: 120px;
+    //background: transparent;
+    border: 1px dashed #777;
+    border-radius: 3px;
+    font-size: 18px;
+    padding: 0 3px;
+    margin: 0;
+    &.changed{
+      font-style: italic;
+    }
+    &.progress{
+      background-color: yellow;
+    }
+    &.success{
+      background-color: lightgreen;
+    }
+    &.error{
+      background-color: #FFD1D1;
+    }
+  }
+}
