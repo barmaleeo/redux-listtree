@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import './listTreeStyle.scss';
+import Name from "./Name";
 
 
 export default class ListTree extends Component {
@@ -13,6 +14,11 @@ export default class ListTree extends Component {
         //console.log(ids);
         e.stopPropagation();
         this.props.actions.checkList( this.props.name, ids, id)
+    };
+
+    onSave = (ids, id, name, value) => {
+        console.log(this.props.name, ids, id, name, value);
+        this.props.editActions.edit(this.props.name, ids, id, name, value);
     };
 
     renderLevel(items, ids){
@@ -32,10 +38,11 @@ export default class ListTree extends Component {
                     <div className={'drop'+(l.open?' open':'')}
                          onClick={this.onClickOpen.bind(this, newIds, l.id)}>
                         {l.open?'-':'+'}
-                    </div>}
-                <span onClick={this.onClickActive.bind(this, newIds, l.id)}>
-                    {l.name}
-                </span>
+                    </div>
+                }
+                <Name item={l} onClick={this.onClickActive.bind(this, newIds, l.id)}
+                      editName={this.props.editName}
+                      onSave={this.onSave.bind(this, newIds, l.id)}/>
                 {l.open && l.items && l.items.length > 0 &&
                     this.renderLevel(l.items, newIds)}
             </li>
@@ -44,24 +51,12 @@ export default class ListTree extends Component {
 
     render() {
         const p = this.props;
-        const s = this.state;
+        //const s = this.state;
         const l = p.list;
+
         return (
             <div className="list-tree-outher">
-                <ul>
-                    <li className={(l.active?'active':'')}>
-                        {l.items && l.items.length > 0 &&
-                            <div className={'drop'+(l.open?' open':'')}
-                                 onClick={this.onClickOpen.bind(this, [l.id], l.id)}>
-                                {l.open?'-':'+'}
-                            </div>}
-                        <span onClick={this.onClickActive.bind(this, [l.id], l.id)}>
-                            {l.name}
-                        </span>
-                        {l.open && l.items && l.items.length > 0 &&
-                            this.renderLevel(l.items, [l.id])}
-                    </li>
-                </ul>
+                {this.renderLevel([l], [])}
             </div>
         )
     }
@@ -76,6 +71,25 @@ export function removeActive(state){
     }
 }
 
+export function getLevel(list, id, callback){
+
+    if(parseInt(list.id) === parseInt(id)){
+        callback(list);
+        return true;
+    }
+    for(const n in list.items){
+        if(parseInt(list.items[n].id) === parseInt(id)){
+            list.items[n] = {...list.items[n]};
+            callback(list.items[n]);
+            return true;
+        }else
+            if(getLevel(list.items[n], id, callback)){
+            return true;
+        }
+    }
+    return false;
+}
+
 export function setOpen(list, ids, level){
     if(level === undefined){
         level = 1;
@@ -85,7 +99,7 @@ export function setOpen(list, ids, level){
         return;
     }
     for(const i of list.items){
-        if(i.id == ids[level]){
+        if(parseInt(i.id) === parseInt(ids[level])){
             setOpen(i, ids, level+1)
         }
     }
@@ -100,7 +114,7 @@ export function setActive(list, ids, level){
         return;
     }
     for(const i of list.items){
-        if(i.id == ids[level]){
+        if(parseInt(i.id) === parseInt(ids[level])){
             setActive(i, ids, level+1)
         }
     }

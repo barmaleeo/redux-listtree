@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.removeActive = removeActive;
+exports.getLevel = getLevel;
 exports.setOpen = setOpen;
 exports.setActive = setActive;
 exports.default = void 0;
@@ -12,7 +13,13 @@ var _react = _interopRequireWildcard(require("react"));
 
 require("./listTreeStyle.scss");
 
+var _Name = _interopRequireDefault(require("./Name"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -66,6 +73,12 @@ function (_Component) {
       _this.props.actions.checkList(_this.props.name, ids, id);
     });
 
+    _defineProperty(_assertThisInitialized(_this), "onSave", function (ids, id, name, value) {
+      console.log(_this.props.name, ids, id, name, value);
+
+      _this.props.editActions.edit(_this.props.name, ids, id, name, value);
+    });
+
     return _this;
   }
 
@@ -89,26 +102,22 @@ function (_Component) {
       }, l.items && l.items.length > 0 && _react.default.createElement("div", {
         className: 'drop' + (l.open ? ' open' : ''),
         onClick: this.onClickOpen.bind(this, newIds, l.id)
-      }, l.open ? '-' : '+'), _react.default.createElement("span", {
-        onClick: this.onClickActive.bind(this, newIds, l.id)
-      }, l.name), l.open && l.items && l.items.length > 0 && this.renderLevel(l.items, newIds));
+      }, l.open ? '-' : '+'), _react.default.createElement(_Name.default, {
+        item: l,
+        onClick: this.onClickActive.bind(this, newIds, l.id),
+        editName: this.props.editName,
+        onSave: this.onSave.bind(this, newIds, l.id)
+      }), l.open && l.items && l.items.length > 0 && this.renderLevel(l.items, newIds));
     }
   }, {
     key: "render",
     value: function render() {
-      var p = this.props;
-      var s = this.state;
+      var p = this.props; //const s = this.state;
+
       var l = p.list;
       return _react.default.createElement("div", {
         className: "list-tree-outher"
-      }, _react.default.createElement("ul", null, _react.default.createElement("li", {
-        className: l.active ? 'active' : ''
-      }, l.items && l.items.length > 0 && _react.default.createElement("div", {
-        className: 'drop' + (l.open ? ' open' : ''),
-        onClick: this.onClickOpen.bind(this, [l.id], l.id)
-      }, l.open ? '-' : '+'), _react.default.createElement("span", {
-        onClick: this.onClickActive.bind(this, [l.id], l.id)
-      }, l.name), l.open && l.items && l.items.length > 0 && this.renderLevel(l.items, [l.id]))));
+      }, this.renderLevel([l], []));
     }
   }]);
 
@@ -147,6 +156,25 @@ function removeActive(state) {
   }
 }
 
+function getLevel(list, id, callback) {
+  if (parseInt(list.id) === parseInt(id)) {
+    callback(list);
+    return true;
+  }
+
+  for (var n in list.items) {
+    if (parseInt(list.items[n].id) === parseInt(id)) {
+      list.items[n] = _objectSpread({}, list.items[n]);
+      callback(list.items[n]);
+      return true;
+    } else if (getLevel(list.items[n], id, callback)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 function setOpen(list, ids, level) {
   if (level === undefined) {
     level = 1;
@@ -165,7 +193,7 @@ function setOpen(list, ids, level) {
     for (var _iterator2 = list.items[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
       var i = _step2.value;
 
-      if (i.id == ids[level]) {
+      if (parseInt(i.id) === parseInt(ids[level])) {
         setOpen(i, ids, level + 1);
       }
     }
@@ -203,7 +231,7 @@ function setActive(list, ids, level) {
     for (var _iterator3 = list.items[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
       var i = _step3.value;
 
-      if (i.id == ids[level]) {
+      if (parseInt(i.id) === parseInt(ids[level])) {
         setActive(i, ids, level + 1);
       }
     }

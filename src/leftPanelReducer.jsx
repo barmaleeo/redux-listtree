@@ -1,9 +1,17 @@
 import {REDUX_LISTTREE_CHECK_LIST, REDUX_LISTTREE_TOGGLE_LIST} from "./lib/reduxListTreeConstants";
-import {removeActive, setActive, setOpen} from "./lib/ListTree";
+import {getLevel, removeActive, setActive, setOpen} from "./lib/ListTree";
+import {
+    REDUX_LISTTREE_EDIT_LIST_DONE,
+    REDUX_LISTTREE_EDIT_LIST_ERR,
+    REDUX_LISTTREE_EDIT_LIST_REQ
+} from "./editConstants";
 
 const initialState = {
     countries:    {id:0, name:'Countries', open:true,    items:[
-            {id:1, name:"Europe", items:[]},
+            {id:1, name:"Europe", items:[
+                    {id:7, name:'Pegeot', items:[]},
+                    {id:8, name:'Renault', items:[]}
+                ]},
             {id:2, name:"South America", items:[]},
             {id:3, name:"North America", items:[]},
             {id:4, name:"Asia", items:[]},
@@ -36,6 +44,31 @@ export default function (state = initialState, action) {
              setActive(state[pl.list], pl.ids);
              newState[pl.list] = {...state[pl.list]};
 
+             break;
+         case REDUX_LISTTREE_EDIT_LIST_REQ:
+             newState = {...state};
+             newState[pl.params.list] = {...state[pl.params.list]};
+             getLevel(newState[pl.params.list], pl.params.id,(item) => {
+                 item.nameProgress  = true;
+                 item.errMsg        = false;
+             });
+
+             break;
+         case REDUX_LISTTREE_EDIT_LIST_DONE:
+             newState = {...state};
+             newState[pl.params.list] = {...state[pl.params.list]};
+             getLevel(newState[pl.params.list], pl.params.id,(item) => {
+                 item.nameProgress  = false;
+                 item.name = pl.params.value;
+             });
+             break;
+         case REDUX_LISTTREE_EDIT_LIST_ERR:
+             newState = {...state};
+             newState[pl.params.list] = {...state[pl.params.list]};
+             getLevel(newState[pl.params.list], pl.params.id,(item) => {
+                 item.nameProgress  = false;
+                 item.errMsg        = 'Error!!!';
+             });
              break;
          default:
 

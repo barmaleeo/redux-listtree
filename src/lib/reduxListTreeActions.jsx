@@ -9,3 +9,4 @@ export function toggleList(list, ids, id){
 export function checkList(list, ids, id){
     return {type:REDUX_LISTTREE_CHECK_LIST, payload:{list:list, ids:ids, id:id}}
 }
+

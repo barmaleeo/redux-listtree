@@ -14,7 +14,7 @@ div.list-tree-outher{
     > li:not(:only-child),
     li {
       position: relative;
-      padding: .2em 0 0 1.2em; /* отступ до текста; для раскрывающегося списка в ряде случаев (в Хроме есть баг) padding-top (.2em) лучше указывать в px */
+      padding: 0 0 0 1.2em; /* отступ до текста; для раскрывающегося списка в ряде случаев (в Хроме есть баг) padding-top (.2em) лучше указывать в px */
       white-space: nowrap;
     }
     li:not(:last-child) {
@@ -58,9 +58,9 @@ div.list-tree-outher{
     .open + ul {
       display: block;
     }
-    li.active>span{
+    li.active>div>span{
       border: 1px dashed #aaa;
-      border-radius: 2px;
+      border-radius: 4px;
       padding:0 3px;
       background: #eee;
     }
