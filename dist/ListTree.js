@@ -73,10 +73,16 @@ function (_Component) {
       _this.props.actions.checkList(_this.props.name, ids, id);
     });
 
-    _defineProperty(_assertThisInitialized(_this), "onSave", function (ids, id, name, value) {
-      console.log(_this.props.name, ids, id, name, value);
+    _defineProperty(_assertThisInitialized(_this), "onSave", function (id, name, value) {
+      console.log(_this.props.name, id, name, value);
 
-      _this.props.editActions.edit(_this.props.name, ids, id, name, value);
+      _this.props.editActions.edit(_this.props.name, id, name, value);
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "onContextMenu", function (ids, item, e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log(item);
     });
 
     return _this;
@@ -98,7 +104,8 @@ function (_Component) {
       newIds.push(l.id);
       return _react.default.createElement("li", {
         key: k,
-        className: l.active ? 'active' : ''
+        className: l.active ? 'active' : '',
+        onContextMenu: this.onContextMenu.bind(this, newIds, l)
       }, l.items && l.items.length > 0 && _react.default.createElement("div", {
         className: 'drop' + (l.open ? ' open' : ''),
         onClick: this.onClickOpen.bind(this, newIds, l.id)
@@ -106,7 +113,7 @@ function (_Component) {
         item: l,
         onClick: this.onClickActive.bind(this, newIds, l.id),
         editName: this.props.editName,
-        onSave: this.onSave.bind(this, newIds, l.id)
+        onSave: this.onSave.bind(this, l.id)
       }), l.open && l.items && l.items.length > 0 && this.renderLevel(l.items, newIds));
     }
   }, {

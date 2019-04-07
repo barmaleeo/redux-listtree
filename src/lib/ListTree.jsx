@@ -16,9 +16,9 @@ export default class ListTree extends Component {
         this.props.actions.checkList( this.props.name, ids, id)
     };
 
-    onSave = (ids, id, name, value) => {
-        console.log(this.props.name, ids, id, name, value);
-        this.props.editActions.edit(this.props.name, ids, id, name, value);
+    onSave = (id, name, value) => {
+        console.log(this.props.name, id, name, value);
+        this.props.editActions.edit(this.props.name, id, name, value);
     };
 
     onContextMenu = (ids, item, e) => {
@@ -49,7 +49,7 @@ export default class ListTree extends Component {
                 }
                 <Name item={l} onClick={this.onClickActive.bind(this, newIds, l.id)}
                       editName={this.props.editName}
-                      onSave={this.onSave.bind(this, newIds, l.id)}/>
+                      onSave={this.onSave.bind(this, l.id)}/>
                 {l.open && l.items && l.items.length > 0 &&
                     this.renderLevel(l.items, newIds)}
             </li>

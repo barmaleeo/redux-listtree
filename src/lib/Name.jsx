@@ -40,7 +40,7 @@ export default class Name extends Component {
         window.removeEventListener('click', this.clickListener.bind(this) )
     }
     clickListener(e){
-        if(this.state.edit && !this.state.element.contains(e.target)){
+        if(this.state.edit && !this.state.className && !this.state.element.contains(e.target)){
             window.removeEventListener('keyup', this.keyUpListener.bind(this) );
             window.removeEventListener('click', this.clickListener.bind(this) );
             this.saveName()
