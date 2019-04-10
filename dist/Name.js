@@ -179,7 +179,7 @@ function (_Component) {
       }) : _react.default.createElement("span", {
         onClick: this.onClick,
         onDoubleClick: this.onDoubleClickName
-      }, i.name));
+      }, p.entity.props.renderItem ? p.entity.props.renderItem(i, p.entity) : i.name));
     }
   }]);
 

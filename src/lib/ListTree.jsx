@@ -38,19 +38,30 @@ export default class ListTree extends Component {
 
         const newIds = ids.slice();
         newIds.push(l.id);
+        let open;
+        if(this.props.filterValue){
+            if(!l.filtered) {
+                return null;
+            }else {
+                open = true;
+            }
+        }else{
+            open = l.open;
+        }
         return(
             <li key={k} className={(l.active?'active':'')}
                 onContextMenu={this.onContextMenu.bind(this,  newIds, l)}>
                 {l.items && l.items.length > 0 &&
-                    <div className={'drop'+(l.open?' open':'')}
+                    <div className={'drop'+(open?' open':'')}
                          onClick={this.onClickOpen.bind(this, newIds, l.id)}>
-                        {l.open?'-':'+'}
+                        {open?'-':'+'}
                     </div>
                 }
                 <Name item={l} onClick={this.onClickActive.bind(this, newIds, l.id)}
                       editName={this.props.editName}
+                      entity={this}
                       onSave={this.onSave.bind(this, l.id)}/>
-                {l.open && l.items && l.items.length > 0 &&
+                {open && l.items && l.items.length > 0 &&
                     this.renderLevel(l.items, newIds)}
             </li>
         )

@@ -3,7 +3,7 @@ import {getLevel, removeActive, setActive, setOpen} from "./lib/ListTree";
 import {
     REDUX_LISTTREE_EDIT_LIST_DONE,
     REDUX_LISTTREE_EDIT_LIST_ERR,
-    REDUX_LISTTREE_EDIT_LIST_REQ
+    REDUX_LISTTREE_EDIT_LIST_REQ, REDUX_LISTTREE_FILTER
 } from "./editConstants";
 
 const initialState = {
@@ -70,10 +70,27 @@ export default function (state = initialState, action) {
                  item.errMsg        = 'Error!!!';
              });
              break;
+         case REDUX_LISTTREE_FILTER:
+             newState = {...state};
+             newState.countries = {...state.countries};
+             filterList(newState.countries, pl.value.toLowerCase());
+             break;
+
          default:
 
      }
 
 
     return newState;
+}
+
+
+function filterList(list, token){
+    list.filtered = !!list.name && list.name.toLowerCase().indexOf(token) >= 0;
+    if(list.items){
+        for(const i of list.items){
+            list.filtered |= filterList(i, token)
+        }
+    }
+    return list.filtered;
 }

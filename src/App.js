@@ -7,15 +7,33 @@ import * as listTreeActions from "./lib/reduxListTreeActions"
 import * as editActions from "./editActions"
 
 class App extends Component {
+  state = {filerValue:''};
+  onChangeSearch = (e) => {
+    this.props.ea.filter(e.target.value);
+    this.setState({filterValue:e.target.value})
+  };
   render() {
     const p = this.props;
     return (
       <div className="App">
+
+
         <div className="left-panel">
+
+          <div className="input-group">
+            <input className="form-control input-sm"
+                   onChange={this.onChangeSearch}/>
+            <div className="input-group-addon">
+              <span className="glyphicon glyphicon-search"/>
+            </div>
+          </div>
+
 
           <ListTree list={p.data.countries}
                     name="countries"
                     editName={true}
+                    filterValue={this.state.filterValue}
+                    renderItem={(item) => (<span>{item.id} - {item.name}</span>)}
                     editActions={p.ea}
                     actions={p.la}/>
 

@@ -90,7 +90,7 @@ export default class Name extends Component {
                            onChange={this.onChangeName}/>:
                     <span onClick={this.onClick}
                           onDoubleClick={this.onDoubleClickName}>
-                        {i.name}
+                        {p.entity.props.renderItem?p.entity.props.renderItem(i, p.entity):i.name}
                     </span>
                 }
             </div>

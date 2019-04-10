@@ -102,19 +102,32 @@ function (_Component) {
     value: function renderItem(l, k, ids) {
       var newIds = ids.slice();
       newIds.push(l.id);
+      var open;
+
+      if (this.props.filterValue) {
+        if (!l.filtered) {
+          return null;
+        } else {
+          open = true;
+        }
+      } else {
+        open = l.open;
+      }
+
       return _react.default.createElement("li", {
         key: k,
         className: l.active ? 'active' : '',
         onContextMenu: this.onContextMenu.bind(this, newIds, l)
       }, l.items && l.items.length > 0 && _react.default.createElement("div", {
-        className: 'drop' + (l.open ? ' open' : ''),
+        className: 'drop' + (open ? ' open' : ''),
         onClick: this.onClickOpen.bind(this, newIds, l.id)
-      }, l.open ? '-' : '+'), _react.default.createElement(_Name.default, {
+      }, open ? '-' : '+'), _react.default.createElement(_Name.default, {
         item: l,
         onClick: this.onClickActive.bind(this, newIds, l.id),
         editName: this.props.editName,
+        entity: this,
         onSave: this.onSave.bind(this, l.id)
-      }), l.open && l.items && l.items.length > 0 && this.renderLevel(l.items, newIds));
+      }), open && l.items && l.items.length > 0 && this.renderLevel(l.items, newIds));
     }
   }, {
     key: "render",
