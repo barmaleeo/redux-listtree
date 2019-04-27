@@ -95,7 +95,7 @@ function (_Component) {
 
       var p = this.props;
       return _react.default.createElement("ul", null, items.map(function (l, k) {
-        return typeof p.renderItem === 'function' ? p.renderItem.bind(_this2, l, k, ids) : _this2.renderItem(l, k, ids);
+        return typeof p.renderItem === 'function' ? p.renderItem(l, k, ids).bind(_this2) : _this2.renderItem(l, k, ids);
       }));
     }
   }, {
