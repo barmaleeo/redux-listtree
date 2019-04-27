@@ -32,7 +32,7 @@ export default class ListTree extends Component {
         return (
             <ul>
                 {items.map((l, k) => (
-                    typeof p.renderItem==='function'?p.renderItem(l, k, ids).bind(this):this.renderItem(l, k, ids)))
+                    typeof p.renderItem==='function'?p.renderItem(this, l, k, ids):this.renderItem(l, k, ids)))
                 }
             </ul>)
     }
