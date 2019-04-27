@@ -28,9 +28,12 @@ export default class ListTree extends Component {
     };
 
     renderLevel(items, ids){
+        const p = this.props;
         return (
             <ul>
-                {items.map((l, k) => (this.renderItem(l, k, ids)))}
+                {items.map((l, k) => (
+                    p.renderItem==='function'?p.renderItem.bind(this,l, k, ids):this.renderItem(l, k, ids)))
+                }
             </ul>)
     }
 

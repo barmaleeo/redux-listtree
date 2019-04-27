@@ -93,8 +93,9 @@ function (_Component) {
     value: function renderLevel(items, ids) {
       var _this2 = this;
 
+      var p = this.props;
       return _react.default.createElement("ul", null, items.map(function (l, k) {
-        return _this2.renderItem(l, k, ids);
+        return p.renderItem === 'function' ? p.renderItem.bind(_this2, l, k, ids) : _this2.renderItem(l, k, ids);
       }));
     }
   }, {
