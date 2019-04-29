@@ -100,7 +100,7 @@ export function getLevel(list, id, callback){
     }
     for(const n in list.items){
         if(parseInt(list.items[n].id) === parseInt(id)){
-            list.items = list.items.slice();
+            list.items[n] = {...list.items[n]};
             if(callback(list.items[n]) === 'remove'){
                 list.items.splice(n, 1)
             }
