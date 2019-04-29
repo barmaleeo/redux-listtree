@@ -186,7 +186,11 @@ function getLevel(list, id, callback) {
   for (var n in list.items) {
     if (parseInt(list.items[n].id) === parseInt(id)) {
       list.items[n] = _objectSpread({}, list.items[n]);
-      callback(list.items[n]);
+
+      if (callback(list.items[n]) === 'remove') {
+        list.items.splice(n, 1);
+      }
+
       return true;
     } else if (getLevel(list.items[n], id, callback)) {
       return true;
