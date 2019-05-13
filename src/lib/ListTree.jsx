@@ -28,6 +28,9 @@ export default class ListTree extends Component {
     };
 
     renderLevel(items, ids){
+        if(!items){
+            return null;
+        }
         const p = this.props;
         return (
             <ul>

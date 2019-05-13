@@ -93,6 +93,10 @@ function (_Component) {
     value: function renderLevel(items, ids) {
       var _this2 = this;
 
+      if (!items) {
+        return null;
+      }
+
       var p = this.props;
       return _react.default.createElement("ul", null, items.map(function (l, k) {
         return typeof p.renderItem === 'function' ? p.renderItem(_this2, l, k, ids) : _this2.renderItem(l, k, ids);
