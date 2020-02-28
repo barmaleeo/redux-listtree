@@ -88,7 +88,7 @@ export default class ListTree extends Component {
 
 export function removeActive(state){
     state.active = false;
-    if(state.items) {
+    if(Array.isArray(state.items)) {
         for (const t of state.items) {
             removeActive(t)
         }
@@ -127,9 +127,11 @@ export function setOpen(list, ids, level){
         list.open = !list.open;
         return;
     }
-    for(const i of list.items){
-        if(parseInt(i.id) === parseInt(ids[level])){
-            setOpen(i, ids, level+1)
+    if(Array.isArray(list.items)) {
+        for (const i of list.items) {
+            if (parseInt(i.id) === parseInt(ids[level])) {
+                setOpen(i, ids, level + 1)
+            }
         }
     }
 }
@@ -142,9 +144,11 @@ export function setActive(list, ids, level){
         list.active = true;
         return;
     }
-    for(const i of list.items){
-        if(parseInt(i.id) === parseInt(ids[level])){
-            setActive(i, ids, level+1)
+    if(Array.isArray(list.items)) {
+        for (const i of list.items) {
+            if (parseInt(i.id) === parseInt(ids[level])) {
+                setActive(i, ids, level + 1)
+            }
         }
     }
 }

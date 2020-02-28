@@ -154,7 +154,7 @@ exports.default = ListTree;
 function removeActive(state) {
   state.active = false;
 
-  if (state.items) {
+  if (Array.isArray(state.items)) {
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
     var _iteratorError = undefined;
@@ -217,29 +217,31 @@ function setOpen(list, ids, level) {
     return;
   }
 
-  var _iteratorNormalCompletion2 = true;
-  var _didIteratorError2 = false;
-  var _iteratorError2 = undefined;
+  if (Array.isArray(list.items)) {
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
 
-  try {
-    for (var _iterator2 = list.items[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-      var i = _step2.value;
-
-      if (parseInt(i.id) === parseInt(ids[level])) {
-        setOpen(i, ids, level + 1);
-      }
-    }
-  } catch (err) {
-    _didIteratorError2 = true;
-    _iteratorError2 = err;
-  } finally {
     try {
-      if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-        _iterator2.return();
+      for (var _iterator2 = list.items[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var i = _step2.value;
+
+        if (parseInt(i.id) === parseInt(ids[level])) {
+          setOpen(i, ids, level + 1);
+        }
       }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
     } finally {
-      if (_didIteratorError2) {
-        throw _iteratorError2;
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
+          _iterator2.return();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
       }
     }
   }
@@ -255,29 +257,31 @@ function setActive(list, ids, level) {
     return;
   }
 
-  var _iteratorNormalCompletion3 = true;
-  var _didIteratorError3 = false;
-  var _iteratorError3 = undefined;
+  if (Array.isArray(list.items)) {
+    var _iteratorNormalCompletion3 = true;
+    var _didIteratorError3 = false;
+    var _iteratorError3 = undefined;
 
-  try {
-    for (var _iterator3 = list.items[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-      var i = _step3.value;
-
-      if (parseInt(i.id) === parseInt(ids[level])) {
-        setActive(i, ids, level + 1);
-      }
-    }
-  } catch (err) {
-    _didIteratorError3 = true;
-    _iteratorError3 = err;
-  } finally {
     try {
-      if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
-        _iterator3.return();
+      for (var _iterator3 = list.items[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+        var i = _step3.value;
+
+        if (parseInt(i.id) === parseInt(ids[level])) {
+          setActive(i, ids, level + 1);
+        }
       }
+    } catch (err) {
+      _didIteratorError3 = true;
+      _iteratorError3 = err;
     } finally {
-      if (_didIteratorError3) {
-        throw _iteratorError3;
+      try {
+        if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
+          _iterator3.return();
+        }
+      } finally {
+        if (_didIteratorError3) {
+          throw _iteratorError3;
+        }
       }
     }
   }

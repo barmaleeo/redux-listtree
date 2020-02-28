@@ -7,8 +7,10 @@ import {
 } from "./editConstants";
 
 const initialState = {
-    countries:    {id:0, name:'Countries', open:true,    items:[
-            {id:1, name:"Europe", items:[
+    countries: {id:0, name:'Countries', open:true,
+        items:[
+            {id:1, name:"Europe",
+                items:[
                     {id:7, name:'Pegeot', items:[]},
                     {id:8, name:'Renault', items:[]}
                 ]},
@@ -18,7 +20,19 @@ const initialState = {
             {id:5, name:"Africa", items:[]},
             {id:6, name:"Australia", items:[]},
         ]},
-    companies:  {id:0, name:'Companies',  items:[]}
+    companies:  {id:0, name:'Companies',  items:[
+            {id:1, name:"Europe",
+                items:[
+                    {id:7, name:'Pegeot', items:[]},
+                    {id:8, name:'Renault', items:[]}
+                ]},
+            {id:2, name:"South America", items:[]},
+            {id:3, name:"North America", items:[]},
+            {id:4, name:"Asia", items:[]},
+            {id:5, name:"Africa", items:[]},
+            {id:6, name:"Australia", items:[]},
+
+        ]}
 };
 
 export default function (state = initialState, action) {
