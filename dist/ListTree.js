@@ -187,20 +187,22 @@ function getLevel(list, id, callback) {
     return true;
   }
 
-  for (var n in list.items) {
-    if (parseInt(list.items[n].id) === parseInt(id)) {
-      list.items[n] = _objectSpread({}, list.items[n]);
-      var result = callback(list.items[n]);
+  if (Array.isArray(list.items)) {
+    for (var n in list.items) {
+      if (parseInt(list.items[n].id) === parseInt(id)) {
+        list.items[n] = _objectSpread({}, list.items[n]);
+        var result = callback(list.items[n]);
 
-      if (result === 'remove') {
-        list.items.splice(n, 1);
-      } else if (_typeof(result) === 'object') {
-        list.items[n] = _objectSpread({}, result);
+        if (result === 'remove') {
+          list.items.splice(n, 1);
+        } else if (_typeof(result) === 'object') {
+          list.items[n] = _objectSpread({}, result);
+        }
+
+        return true;
+      } else if (getLevel(list.items[n], id, callback)) {
+        return true;
       }
-
-      return true;
-    } else if (getLevel(list.items[n], id, callback)) {
-      return true;
     }
   }
 

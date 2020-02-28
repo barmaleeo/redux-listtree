@@ -101,19 +101,20 @@ export function getLevel(list, id, callback){
         callback(list);
         return true;
     }
-    for(const n in list.items){
-        if(parseInt(list.items[n].id) === parseInt(id)){
-            list.items[n] = {...list.items[n]};
-            const result = callback(list.items[n]);
-            if(result === 'remove'){
-                list.items.splice(n, 1)
-            }else if(typeof result === 'object'){
-                list.items[n] = {...result};
+    if(Array.isArray(list.items)) {
+        for (const n in list.items) {
+            if (parseInt(list.items[n].id) === parseInt(id)) {
+                list.items[n] = {...list.items[n]};
+                const result = callback(list.items[n]);
+                if (result === 'remove') {
+                    list.items.splice(n, 1)
+                } else if (typeof result === 'object') {
+                    list.items[n] = {...result};
+                }
+                return true;
+            } else if (getLevel(list.items[n], id, callback)) {
+                return true;
             }
-            return true;
-        }else
-            if(getLevel(list.items[n], id, callback)){
-            return true;
         }
     }
     return false;
